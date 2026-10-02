@@ -1,0 +1,157 @@
+/* Home — the daily number is the loudest thing; everything else stays quiet. */
+
+.hm { gap: var(--sp-6); }
+
+/* ---- Greeting -------------------------------------------------------------- */
+.hm-greet { display: flex; flex-direction: column; gap: 0.125rem; margin-block-start: calc(var(--sp-2) * -1); }
+.hm-greet__date { font-size: var(--fs-small); color: var(--text-muted); }
+.hm-greet__title { font-size: 1.5rem; font-weight: var(--fw-bold); line-height: 1.3; }
+
+/* ---- Hero: the daily number ---------------------------------------------- */
+.hm-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-6) 1.25rem 1.25rem;
+}
+.hm-hero__eyebrow { font-size: var(--fs-body); font-weight: var(--fw-semibold); }
+.hm-hero__number { margin-block: var(--sp-1) var(--sp-3); }
+/* number stays centred; the read-aloud button sits right after it */
+.hm-hero__numrow {
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(3rem, 1fr);
+  align-items: center;
+  column-gap: var(--sp-2);
+}
+.hm-hero__numrow .hm-hero__number { grid-column: 2; }
+.hm-hero__speak { grid-column: 3; justify-self: start; margin-block-end: var(--sp-2); }
+.hm-hero__number .hero-number__value { font-size: 4.5rem; letter-spacing: -0.02em; }
+[lang="ar"] .hm-hero__number .hero-number__value { letter-spacing: 0; }
+.hm-hero__number .is-new { animation: hm-pulse 700ms var(--ease) both; }
+@keyframes hm-pulse { 40% { transform: scale(1.08); } }
+.hm-hero__number bdi { display: inline-block; }
+
+.hm-hero__check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-block-start: var(--sp-3);
+  font-size: var(--fs-small);
+  opacity: 0.92;
+}
+.hm-hero__check .icon { width: 1.125rem; height: 1.125rem; }
+
+.hm-hero__progress { align-self: stretch; margin-block-start: var(--sp-6); text-align: start; }
+.hm-hero__progress .progress__head { flex-wrap: wrap; font-weight: var(--fw-medium); }
+
+.hm-hero__how {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 3rem;
+  margin-block-start: var(--sp-4);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--on-hero) 12%, transparent);
+  color: var(--on-hero);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  transition: background var(--dur) var(--ease);
+}
+.hm-hero__how:hover { background: color-mix(in srgb, var(--on-hero) 20%, transparent); }
+.hm-hero__how .icon { width: 1.25rem; height: 1.25rem; }
+.hm-hero__chev { opacity: 0.8; }
+.hm-hero__how:focus-visible { outline-color: var(--on-hero); }
+
+/* ---- Quick actions ---------------------------------------------------------- */
+.hm-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: var(--sp-3);
+}
+.hm-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.125rem;
+  min-height: 8rem;
+  padding: var(--sp-4);
+  border: 0;
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--text);
+  text-align: start;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.hm-action:hover { background: var(--surface-2); }
+.hm-action:active { background: var(--primary-soft); transform: scale(0.98); }
+.hm-action__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem; height: 2.75rem;
+  margin-block-end: var(--sp-2);
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-text);
+}
+.hm-action__title { font-size: var(--fs-body); font-weight: var(--fw-bold); line-height: 1.3; }
+.hm-action__sub { font-size: var(--fs-small); color: var(--text-muted); line-height: 1.35; }
+
+/* ---- Coming up ---------------------------------------------------------------- */
+.hm-due { align-items: center; }
+.hm-due:focus-visible { outline-offset: -3px; }
+.hm-due__end { display: flex; flex-direction: column; align-items: flex-end; gap: var(--sp-1); }
+.hm-paid {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: 3rem;
+  padding-inline: 0.75rem 1rem;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--primary-text);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.hm-paid .icon { width: 1.125rem; height: 1.125rem; }
+.hm-paid:hover { background: var(--primary-soft); border-color: var(--primary); }
+.hm-paid:active { transform: scale(0.97); }
+
+.hm-due.is-paid .row__icon { background: var(--good-bg); color: var(--good-fg); }
+.hm-due.is-paid .row__title { color: var(--text-muted); font-weight: var(--fw-medium); }
+.hm-due.is-paid .row__end { color: var(--text-muted); font-weight: var(--fw-medium); }
+
+/* ---- Owed + tip ---------------------------------------------------------------- */
+.hm-owed .row__end { color: var(--accent-text); }   /* money coming in = sand */
+.hm-tip .bubble { color: var(--text); line-height: 1.45; }
+
+/* Large text: give the big number room, and let rows put the amount on its own line */
+html[data-text-size="xlarge"] .hm-hero__number .hero-number__value { font-size: 3.75rem; }
+html[data-text-size="xlarge"] .hm-hero__numrow { display: flex; flex-wrap: wrap; justify-content: center; }
+html[data-text-size="xlarge"] .hm-due { flex-wrap: wrap; }
+html[data-text-size="xlarge"] .hm-due .row__body { flex-basis: calc(100% - 3.5rem); }
+html[data-text-size="xlarge"] .hm-due__end {
+  flex-basis: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline-start: 3.5rem;
+}
+html[data-text-size="xlarge"] .hm-owed { flex-wrap: wrap; }
+html[data-text-size="xlarge"] .hm-owed .row__body { flex-basis: calc(100% - 3.5rem); }
+html[data-text-size="xlarge"] .hm-owed .row__end { flex: 1; padding-inline-start: 3.5rem; }
+
+/* Brand in the header (start side) */
+.hm-brand { display: inline-flex; align-items: center; gap: var(--sp-2); padding-inline-start: var(--sp-1); min-width: 0; }
+.hm-brand .logo { width: 2.25rem; height: 2.25rem; }
+.hm-brand__name { font-size: 1.125rem; font-weight: var(--fw-bold); color: var(--primary-text); white-space: nowrap; }

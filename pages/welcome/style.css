@@ -1,0 +1,109 @@
+/* Welcome — layout for this page only. Shared styling lives in assets/css. */
+
+.wl-scroll { padding-block-start: 0; }
+.wl {
+  align-items: center;
+  gap: var(--sp-6);
+  text-align: center;
+}
+
+/* Brand line: logo + name */
+.wl-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.wl-brand__logo { width: 2.75rem; height: 2.75rem; }
+.wl-brand__name { font-size: 1.25rem; font-weight: var(--fw-bold); letter-spacing: -0.01em; }
+[lang="ar"] .wl-brand__name { letter-spacing: 0; }
+
+/* Mascot peeking over a soft preview of the payoff */
+.wl-hero {
+  position: relative;
+  width: 100%;
+  max-width: 20rem;
+  padding-block-start: 4.75rem;
+}
+.wl-hero::before {               /* soft glow behind the mascot */
+  content: "";
+  position: absolute;
+  inset-block-start: -0.5rem;
+  inset-inline-start: 50%;
+  width: 11rem;
+  height: 11rem;
+  margin-inline-start: -5.5rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  opacity: 0.9;
+}
+.wl-hero__mascot {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 50%;
+  z-index: 2;
+  margin-inline-start: -4rem;
+}
+.wl-teaser {
+  position: relative;
+  z-index: 1;
+  padding-block: 3.75rem var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sheet);
+  box-shadow: var(--shadow-md);
+}
+.wl-teaser__tag {
+  position: absolute;
+  inset-block-start: var(--sp-3);
+  inset-inline-start: var(--sp-3);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--on-accent-soft);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  line-height: 1.75;
+}
+.wl-teaser .card__eyebrow { color: var(--text-muted); opacity: 1; }
+.wl-teaser__num { margin-block: var(--sp-1) var(--sp-3); }
+.wl-teaser__num .hero-number__value { font-size: 3.25rem; color: var(--primary-text); }
+.wl-teaser__num .hero-number__cur { color: var(--text-muted); opacity: 1; }
+
+/* Promise */
+.wl-copy { display: flex; flex-direction: column; gap: var(--sp-2); max-width: 21rem; }
+.wl-copy__title { font-size: 1.625rem; }
+[lang="ar"] .wl-copy__title { line-height: 1.5; }
+
+/* Trust lines */
+.wl-trust {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  align-self: stretch;
+  padding: var(--sp-4);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  text-align: start;
+}
+.wl-trust__item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+}
+.wl-trust__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-text);
+}
+.wl-trust__icon .icon { width: 1.25rem; height: 1.25rem; }
+
+/* Footer: no top rule on the very first screen, it should feel open */
+.wl-foot { border-block-start: 0; gap: var(--sp-1); }
+.wl-foot .btn--primary { font-size: 1.25rem; }

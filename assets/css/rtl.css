@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Tawazon Plus — RTL (Arabic) refinements
+   Almost everything is already direction-aware because the CSS uses logical
+   properties. This file only holds the things CSS cannot mirror by itself.
+   ========================================================================== */
+
+[dir="rtl"] { --flip: -1; }
+
+/* Directional icons (chevrons, arrows, undo) point the other way in RTL */
+[dir="rtl"] .icon--dir { transform: scaleX(-1); }
+
+/* Bubble tail on the mascot: a square rotated 45° looks the same either way */
+
+/* Arabic text is visually smaller than Latin at the same size: nudge it up
+   slightly for body-sized copy, keep the 16px floor for everything else. */
+[lang="ar"] .t-small,
+[lang="ar"] .row__sub,
+[lang="ar"] .progress__head,
+[lang="ar"] .amount__words { line-height: 1.7; }
+
+[lang="ar"] .btn,
+[lang="ar"] .chip,
+[lang="ar"] .segmented__btn,
+[lang="ar"] .tab { line-height: 1.5; }
+
+/* Arabic headings: tighter leading looks better and avoids tall gaps */
+[lang="ar"] .t-title,
+[lang="ar"] .empty__title,
+[lang="ar"] .modal__title,
+[lang="ar"] .sheet__title { line-height: 1.5; }
+
+/* The big number keeps Latin-style proportions; Arabic-Indic digits need room */
+[lang="ar"] .hero-number__value { line-height: 1.25; }
+[lang="ar"] .amount__value      { line-height: 1.3; }
+
+/* Amounts such as "200 ر.س": keep the number and currency together */
+[dir="rtl"] .amount-text,
+[dir="rtl"] bdi { unicode-bidi: isolate; }
+
+/* Keypad stays 1-2-3 left-to-right in both languages (phone convention) */
+[dir="rtl"] .keypad { direction: ltr; }

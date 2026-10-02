@@ -1,0 +1,148 @@
+/* My month — calm insight cards. Colour roles (PAGE-GUIDE §9):
+   the daily number + time = teal · payments = lighter teals (--split-*) ·
+   money coming in or kept (salary, savings, money received) = sand. */
+
+.mo { gap: var(--sp-4); }
+.mo-lead { margin-block-end: var(--sp-1); }
+
+/* ---- Tones: --c is the mark colour (SVG fill / swatch) -------------------------- */
+.mo-tone--use   { --c: var(--primary); }
+.mo-tone--pay1  { --c: var(--split-1); }
+.mo-tone--pay2  { --c: var(--split-2); }
+.mo-tone--pay3  { --c: var(--split-3); }
+.mo-tone--kept  { --c: var(--accent); }
+/* saved vs left over: one sand hue, two steps (validated: light→dark, both themes) */
+.mo         { --saved: var(--accent-text); --left: var(--accent); }
+[data-theme="dark"] .mo { --saved: var(--accent); --left: color-mix(in srgb, var(--sand-500) 70%, var(--surface)); }
+.mo-tone--saved { --c: var(--saved); }
+.mo-tone--left  { --c: var(--left); }
+
+/* ---- 1. Summary (the one hero gradient on this screen) ---------------------------- */
+.mo-hero { display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-4) 1.25rem 1.125rem; text-align: start; }
+.mo-hero__top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--sp-2) var(--sp-3); }
+.mo-hero__num { display: flex; flex-direction: column; gap: 0.125rem; }
+.mo-hero__value { font-size: 2.5rem; font-weight: var(--fw-bold); line-height: 1.1; letter-spacing: -0.01em; }
+.mo-hero__cur { font-size: var(--fs-body); font-weight: var(--fw-semibold); opacity: 0.9; letter-spacing: 0; }
+.mo-hero .badge { margin-block-end: 0.25rem; }
+.mo-hero__progress .progress__head { margin-block-end: var(--sp-2); flex-wrap: wrap; }
+.mo-hero__progress .progress__track { height: 0.375rem; }
+
+/* ---- Cards ------------------------------------------------------------------------- */
+.mo-card { display: flex; flex-direction: column; gap: var(--sp-3); }
+.mo-head { display: flex; flex-direction: column; gap: 0.125rem; }
+.mo-head--row { flex-direction: row; flex-wrap: wrap; align-items: baseline; justify-content: space-between; column-gap: var(--sp-3); }
+.mo-title { font-size: var(--fs-body); font-weight: var(--fw-bold); line-height: 1.35; }
+.mo-sub { font-size: var(--fs-small); color: var(--text-muted); }
+
+/* ---- Chart marks (SVG) ------------------------------------------------------------ */
+.mo-svg { display: block; overflow: visible; }
+.mo-svg text { font-size: var(--fs-small); fill: var(--text-muted); font-variant-numeric: tabular-nums; }
+.mo-svg .mo-tick--strong { fill: var(--text); font-weight: var(--fw-semibold); }
+.mo-svg .mo-value { fill: var(--text); font-weight: var(--fw-semibold); }
+.mo-svg .mo-label, .mo-svg .mo-value { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.mo-grid, .mo-base { stroke: var(--border); stroke-width: 1; }
+.mo-normal { stroke: var(--border-strong); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.mo-line { fill: none; stroke: var(--primary); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.mo-area { fill: var(--primary); opacity: 0.1; }
+.mo-ahead { stroke: var(--primary); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 0.1 6; opacity: 0.55; }
+.mo-ahead-area { fill: var(--primary); opacity: 0.05; }
+.mo-cross { stroke: var(--border-strong); stroke-width: 1; }
+.mo-dot { stroke: var(--surface); stroke-width: 2; }
+.mo-dot--today { fill: var(--primary); stroke-width: 2.5; }
+.mo-dot--pick  { fill: var(--surface); stroke: var(--primary); stroke-width: 2; }
+.mo-dot--sand, .mo-dot--salary { fill: var(--accent); }
+.mo-dot--teal  { fill: var(--primary-text); }
+.mo-seg, .mo-bar { fill: var(--c); }
+
+/* draw-in (first visit only; skipped with reduced motion) */
+.is-play .mo-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: mo-draw 1100ms var(--ease) 150ms forwards; }
+.is-play .mo-area, .is-play .mo-ahead, .is-play .mo-ahead-area, .is-play .mo-dot, .is-play .mo-value { animation: mo-fade 500ms var(--ease) 900ms both; }
+.is-play .mo-split { animation: mo-grow-x 900ms var(--ease) 200ms both; }
+.is-play .mo-bar { animation: mo-grow-y 700ms var(--ease) both; animation-delay: calc(var(--i) * 60ms + 200ms); }
+@keyframes mo-draw   { to { stroke-dashoffset: 0; } }
+@keyframes mo-fade   { from { opacity: 0; } }
+@keyframes mo-grow-x { from { transform: scaleX(0); } }
+@keyframes mo-grow-y { from { transform: scaleY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .is-play .mo-line { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+  .is-play .mo-area, .is-play .mo-ahead, .is-play .mo-ahead-area, .is-play .mo-dot, .is-play .mo-value,
+  .is-play .mo-split, .is-play .mo-bar { animation: none; }
+}
+
+/* ---- 2. Daily number: readout, scrub layer, keys, facts --------------------------- */
+.mo-readout { font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--primary-text); }
+.mo-chart { position: relative; }
+.mo-scrub { position: absolute; inset: 0; border-radius: var(--r-sm); touch-action: pan-y; cursor: crosshair; }
+.mo-scrub:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+
+.mo-keys { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-4); font-size: var(--fs-small); color: var(--text-muted); }
+.mo-keys li { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.mo-key { flex: none; display: inline-block; width: 1.25rem; height: 0; border-block-start: 2px solid var(--primary); }
+.mo-key--normal { border-block-start: 2px dashed var(--border-strong); }
+.mo-key--ahead  { border-block-start: 2px dotted var(--primary); opacity: 0.7; }
+.mo-key--dot { width: 0.625rem; height: 0.625rem; border: 0; border-radius: 50%; }
+.mo-key--sand { background: var(--accent); }
+.mo-key--teal { background: var(--primary-text); }
+.mo-key--today { width: 1rem; height: 1rem; border: 2px solid var(--primary); border-radius: 50%; }
+
+.mo-facts { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); margin-block-start: var(--sp-1); }
+.mo-fact { padding: var(--sp-3); border-radius: var(--r-md); background: var(--surface-2); }
+.mo-fact__k, .mo-fact__d { font-size: var(--fs-small); color: var(--text-muted); }
+.mo-fact__v { font-size: 1.25rem; font-weight: var(--fw-bold); line-height: 1.3; }
+.mo-change { display: flex; align-items: baseline; gap: var(--sp-2); font-size: var(--fs-small); line-height: 1.5; }
+.mo-change .mo-key--dot { transform: translateY(-0.05rem); }
+
+/* ---- 3. Salary split legend --------------------------------------------------------- */
+.mo-legend { display: flex; flex-direction: column; }
+.mo-legend li { display: flex; align-items: center; gap: var(--sp-3); min-height: 2.5rem; font-size: var(--fs-small); }
+.mo-legend li + li { border-block-start: 1px solid var(--border); }
+.mo-sw { flex: none; display: inline-block; width: 0.875rem; height: 0.875rem; border-radius: 4px; background: var(--c); }
+.mo-legend__name { flex: 1; min-width: 0; }
+.mo-legend__amt { font-weight: var(--fw-semibold); white-space: nowrap; }
+.mo-legend__pct { min-width: 2.75rem; color: var(--text-muted); text-align: end; white-space: nowrap; }
+
+/* ---- 4. Calendar ---------------------------------------------------------------------- */
+.mo-cal { padding-inline: var(--sp-2); }
+.mo-cal > .mo-head, .mo-cal > .mo-cal__detail, .mo-cal > .mo-keys { margin-inline: var(--sp-3); }
+.mo-cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); row-gap: var(--sp-1); }
+.mo-cal__wd { padding-block: var(--sp-1); font-size: var(--fs-small); color: var(--text-muted); text-align: center; }
+.mo-day {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.125rem;
+  min-height: 3.25rem; margin-inline: 1px;
+  border: 2px solid transparent; border-radius: var(--r-sm);
+  font-size: var(--fs-small); font-weight: var(--fw-medium); color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.mo-day--past { color: var(--disabled-fg); font-weight: var(--fw-regular); }
+.mo-day--today { border-color: var(--primary); font-weight: var(--fw-bold); }
+.mo-day--mark { background: var(--primary-soft); color: var(--on-primary-soft); font-weight: var(--fw-semibold); cursor: pointer; padding: 0; }
+.mo-day--salary { background: var(--accent-soft); color: var(--on-accent-soft); }
+.mo-day--mark .icon { width: 1.125rem; height: 1.125rem; }
+.mo-day--mark:hover { filter: brightness(0.97); }
+.mo-day--mark[aria-expanded="true"] { border-color: currentColor; }
+.mo-day--mark:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.mo-cal__detail {
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md);
+  font-size: var(--fs-small); line-height: 1.5; color: var(--text-muted); background: var(--surface-2);
+}
+.mo-cal__detail.is-open { color: var(--on-primary-soft); background: var(--primary-soft); animation: fade-up var(--dur) var(--ease) both; }
+.mo-keys--cal { row-gap: var(--sp-2); }
+.mo-chip { display: inline-grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--primary-soft); color: var(--primary-text); }
+.mo-chip--salary { background: var(--accent-soft); color: var(--on-accent-soft); }
+.mo-chip .icon { width: 1rem; height: 1rem; }
+
+/* ---- 5. Savings total ----------------------------------------------------------------- */
+.mo-total { display: flex; align-items: center; gap: var(--sp-3); padding-block-start: var(--sp-3); border-block-start: 1px solid var(--border); }
+.mo-total .row__icon { width: 2.5rem; height: 2.5rem; }
+.mo-total .row__icon--sand { color: var(--accent-text); }
+.mo-total__k { flex: 1; font-size: var(--fs-small); color: var(--text-muted); }
+.mo-total__v { font-size: 1.25rem; font-weight: var(--fw-bold); white-space: nowrap; }
+
+/* ---- Large text: stack what would squeeze ------------------------------------------- */
+html[data-text-size="xlarge"] .mo-facts { grid-template-columns: 1fr; }
+html[data-text-size="xlarge"] .mo-legend li { flex-wrap: wrap; row-gap: 0; padding-block: var(--sp-1); }
+html[data-text-size="xlarge"] .mo-legend__name { flex-basis: calc(100% - 0.875rem - var(--sp-3)); }
+html[data-text-size="xlarge"] .mo-legend__amt { margin-inline-start: calc(0.875rem + var(--sp-3)); }
+html[data-text-size="xlarge"] .mo-legend__pct { margin-inline-start: auto; }
+html[data-text-size="xlarge"] .mo-day { min-height: 3.5rem; }
+html[data-text-size="xlarge"] .mo-day--mark .icon { width: 1rem; height: 1rem; }

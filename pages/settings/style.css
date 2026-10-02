@@ -1,0 +1,104 @@
+/* Settings — layout for this page only. Shared styling lives in assets/css. */
+
+.st { gap: var(--sp-6); }
+
+/* ---- Groups ---- */
+.st-sec { display: flex; flex-direction: column; gap: var(--sp-2); }
+.st-sec__title {
+  padding-inline: var(--sp-2);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+
+/* Rows: 56px+ everywhere, a little tighter than list rows elsewhere */
+.st .row { min-height: 3.5rem; }
+.st-row { gap: var(--sp-3); }
+.st-row .row__body { cursor: default; }
+.st-row label.row__body { cursor: pointer; }
+.st-row[hidden] { display: none; }
+
+/* Choice rows: label on top, full-width segmented control below */
+.st-row--stack { flex-direction: column; align-items: stretch; gap: var(--sp-3); padding-block: var(--sp-4); }
+.st-row__head { display: flex; align-items: center; gap: var(--sp-3); }
+.st-seg .segmented__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-width: 0;
+  padding-inline: var(--sp-3);
+}
+.st-seg .segmented__btn .icon { width: 1.25rem; height: 1.25rem; }
+.st-seg [lang="ar"] { font-family: var(--font-ar); }
+.st-seg [lang="en"] { font-family: var(--font-en); }
+
+/* Number style + text size previews */
+.st-num { font-size: var(--fs-body); font-variant-numeric: normal; }
+.st-a { line-height: 1; }
+.st-a--1 { font-size: 1rem; }
+.st-a--2 { font-size: 1.3rem; }
+.st-a--3 { font-size: 1.65rem; }
+
+/* Text glyph in place of an icon (numbers / text size rows) */
+.st-glyph { font-size: 1.125rem; font-weight: var(--fw-bold); line-height: 1; }
+[lang="ar"] .st-glyph { font-family: var(--font-ar); }
+
+/* Icon tints */
+.st-icon--good  { background: var(--good-bg); color: var(--good-fg); }
+.st-icon--tight { background: var(--tight-bg); color: var(--tight-fg); }
+.st-check { display: grid; place-items: center; color: var(--good-fg); }
+
+.st-logo { background: transparent; }
+.st-logo .logo { width: 2.75rem; height: 2.75rem; }
+
+/* Current value at the end of a row (reminder time) */
+.st-value { font-weight: var(--fw-semibold); color: var(--primary-text); }
+
+/* "Plus" tag on paid rows */
+.st-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-inline-start: var(--sp-2);
+  padding: 0 var(--sp-2);
+  vertical-align: 0.0625rem;
+  line-height: 1.5;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--on-accent-soft);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+.st-tag .icon { width: 1rem; height: 1rem; }
+
+/* Delete row: soft coral, never harsh red */
+[data-action="delete"] .row__title { color: var(--tight-fg); }
+
+/* ---- Sheets ---- */
+.st-sheet { display: flex; flex-direction: column; gap: var(--sp-4); }
+.st-sheet .sheet__title { margin-block-end: 0; }
+.st-sheet__hint { font-size: var(--fs-small); margin-block-start: calc(var(--sp-2) * -1); }
+.st-sheet__actions { margin-block-start: var(--sp-2); }
+
+.st-times { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
+.st-time {
+  min-height: 3.5rem;
+  padding: 0 var(--sp-3);
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.st-time:hover { border-color: var(--primary); }
+.st-time:active { transform: scale(0.97); }
+.st-time[aria-checked="true"] { border-color: var(--primary); background: var(--primary-soft); color: var(--on-primary-soft); }
+
+.st-points { display: flex; flex-direction: column; gap: var(--sp-3); }
+.st-points li { display: flex; align-items: center; gap: var(--sp-3); font-size: var(--fs-body); }
+.st-points .row__icon { width: 2.5rem; height: 2.5rem; }
+.st-points .icon { width: 1.25rem; height: 1.25rem; }

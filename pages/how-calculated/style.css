@@ -1,0 +1,172 @@
+/* How we got your number — a calm money story, step by step. */
+
+.hc { gap: var(--sp-6); }
+
+/* ---- Colour roles (see PAGE-GUIDE "Colour roles"):
+   money in (salary, changes) = sand · payments = teal · money I can use = solid teal.
+   --chip-bg / --chip-fg = the round icon, --c = the bar segment and legend swatch ---- */
+.hc-step          { --chip-bg: var(--primary-soft); --chip-fg: var(--primary-text); }
+.hc-tone--salary,
+.hc-tone--changes { --chip-bg: var(--accent-soft);  --chip-fg: var(--on-accent-soft); --c: var(--accent); }
+.hc-tone--rent    { --c: var(--split-1); }
+.hc-tone--bills   { --c: var(--split-2); }
+.hc-tone--extra   { --c: color-mix(in srgb, var(--split-2) 50%, var(--split-3)); }   /* a third fixed payment */
+.hc-tone--debt    { --c: var(--split-3); }
+.hc-tone--use     { --chip-bg: var(--primary);      --chip-fg: var(--on-primary);      --c: var(--primary); }
+
+/* ---- Steps: a timeline inside one card ------------------------------------ */
+.hc-steps {
+  padding-block: var(--sp-2);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.hc-step { position: relative; }
+/* the thread that joins the parts */
+.hc-step::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(var(--sp-4) + 1.375rem - 1px);
+  width: 2px;
+  background: var(--border);
+}
+.hc-step:first-child::before { inset-block-start: 50%; }
+.hc-step--total::before { inset-block-end: auto; height: var(--sp-4); }
+
+.hc-step__btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  min-height: 4.25rem;
+  padding: var(--sp-2) var(--sp-4);
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: start;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--dur-fast) var(--ease);
+}
+.hc-step__btn:hover { background: var(--surface-2); }
+.hc-step__btn:active { background: var(--primary-soft); }
+.hc-step__btn:focus-visible { outline-offset: -3px; border-radius: var(--r-md); }
+
+.hc-chip {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem; height: 2.75rem;
+  border-radius: 50%;
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  box-shadow: 0 0 0 4px var(--surface);
+}
+.hc-chip .icon { width: 1.375rem; height: 1.375rem; }
+
+.hc-step__name { flex: 1; min-width: 0; font-size: var(--fs-small); font-weight: var(--fw-semibold); line-height: 1.35; }
+.hc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  margin-inline-start: var(--sp-1);
+  padding-inline: 0.375rem 0.5rem;
+  border-radius: var(--r-pill);
+  background: var(--good-bg);
+  color: var(--good-fg);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.hc-tag .icon { width: 1rem; height: 1rem; stroke-width: 2.6; }
+
+.hc-step__amt {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+.hc-sign { display: grid; place-items: center; color: var(--text-muted); }
+.hc-sign .icon { width: 1rem; height: 1rem; stroke-width: 2.6; }
+.hc-step__chev {
+  width: 1.125rem; height: 1.125rem;
+  color: var(--text-muted);
+  transform: rotate(90deg);
+  transition: transform var(--dur) var(--ease);
+}
+.hc-step__btn[aria-expanded="true"] .hc-step__chev { transform: rotate(-90deg); }
+
+.hc-step__info {
+  position: relative;
+  padding-block: 0 var(--sp-3);
+  padding-inline: calc(var(--sp-4) + 2.75rem + var(--sp-3)) var(--sp-4);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+  line-height: 1.5;
+  animation: fade-up var(--dur) var(--ease) both;
+}
+
+/* "= Money I can use": the sum line */
+.hc-step--total { margin-block-start: var(--sp-2); padding-block-start: var(--sp-2); }
+.hc-step--total .hc-step__btn::before {
+  content: "";
+  position: absolute;
+  inset-block-start: calc(var(--sp-2) * -1);
+  inset-inline: var(--sp-4);
+  border-block-start: 2px dashed var(--border-strong);
+}
+.hc-step--total .hc-step__name { font-size: var(--fs-body); font-weight: var(--fw-bold); }
+.hc-step--total .hc-step__amt { color: var(--primary-text); font-size: 1.25rem; }
+
+/* ---- Result: shared over the days left --------------------------------------- */
+.hc-result { display: flex; flex-direction: column; align-items: center; gap: var(--sp-1); padding-block: var(--sp-6); }
+.hc-result__eyebrow { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-body); font-weight: var(--fw-semibold); }
+.hc-result__eyebrow .icon { width: 1.25rem; height: 1.25rem; opacity: 0.9; }
+.hc-result__num { flex-wrap: wrap; margin-block: 0; }
+.hc-result__per { font-size: var(--fs-body); font-weight: var(--fw-medium); opacity: 0.9; }
+.hc-result__sub { max-width: 18rem; font-size: var(--fs-small); opacity: 0.9; }
+
+/* ---- Salary split bar --------------------------------------------------------- */
+.hc-split { display: flex; flex-direction: column; gap: var(--sp-4); }
+.hc-split__title { font-size: var(--fs-body); font-weight: var(--fw-bold); }
+.hc-bar {
+  display: flex;
+  gap: 2px;
+  height: 2rem;
+  overflow: hidden;
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+}
+.hc-seg { flex: none; width: var(--w); background: var(--c); }
+.hc-seg:last-child { flex: 1; }
+.hc-legend { display: flex; flex-direction: column; gap: var(--sp-2); }
+.hc-legend li { display: flex; align-items: center; gap: var(--sp-3); font-size: var(--fs-small); }
+.hc-swatch { flex: none; width: 1rem; height: 1rem; border-radius: 4px; background: var(--c); }
+.hc-legend__name { flex: 1; min-width: 0; }
+.hc-legend__amt { font-weight: var(--fw-semibold); white-space: nowrap; }
+
+.hc-replay { align-self: center; }
+
+/* ---- Step-by-step animation (off with reduced motion, see base.css) ---------- */
+.hc.is-play .hc-step,
+.hc.is-play .hc-result {
+  animation: hc-in 480ms var(--ease) both;
+  animation-delay: calc(var(--i) * 280ms + 120ms);
+}
+.hc.is-play .hc-chip { animation: hc-pop 480ms var(--ease) both; animation-delay: calc(var(--i) * 280ms + 160ms); }
+.hc.is-play .hc-seg { animation: hc-grow 700ms var(--ease) both; animation-delay: calc(var(--i) * 160ms + 600ms); }
+@keyframes hc-in   { from { opacity: 0; transform: translateY(12px); } }
+@keyframes hc-pop  { from { transform: scale(0.5); } 70% { transform: scale(1.1); } }
+@keyframes hc-grow { from { width: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hc.is-play .hc-step, .hc.is-play .hc-result, .hc.is-play .hc-chip, .hc.is-play .hc-seg { animation: none; }
+}
+
+/* Large text: the amount moves under the name so nothing squeezes */
+html[data-text-size="xlarge"] .hc-step__btn { flex-wrap: wrap; row-gap: 0; }
+html[data-text-size="xlarge"] .hc-step__name { flex-basis: calc(100% - 2.75rem - 1.125rem - 2 * var(--sp-3)); }
+html[data-text-size="xlarge"] .hc-step__amt { order: 3; flex-basis: 100%; padding-inline-start: calc(2.75rem + var(--sp-3)); }

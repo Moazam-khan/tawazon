@@ -1,0 +1,300 @@
+/* ==========================================================================
+   Tawazon Plus — app shell: header, language switch, page footer, notes,
+   design-state bar. Used by every page in /pages (not by the design system).
+   Load order: tokens, base, components, app, rtl, then the page's style.css
+   ========================================================================== */
+
+body { min-height: 100dvh; }
+body:not(.is-ready) .phone { visibility: hidden; }   /* no flash of untranslated keys */
+
+/* ---- Header ------------------------------------------------------------------ */
+.appbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: 4rem;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--bg);
+}
+.appbar__title {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.25rem;
+  font-weight: var(--fw-bold);
+  line-height: 1.3;
+}
+.appbar--root .appbar__title { padding-inline-start: var(--sp-2); }
+.appbar__end { display: flex; align-items: center; gap: var(--sp-1); }
+.appbar__btn {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3rem; height: 3rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.appbar__btn:hover { background: var(--surface-2); }
+.appbar__btn:active { background: var(--primary-soft); }
+
+/* Language switch: shows the other language's name */
+.langswitch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: 3rem;
+  padding: 0 0.875rem;
+  border: 2px solid var(--border);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--primary-text);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.langswitch .icon { width: 1.25rem; height: 1.25rem; }
+.langswitch:hover { border-color: var(--primary); }
+.langswitch:active { background: var(--primary-soft); }
+.langswitch [lang="ar"] { font-family: var(--font-ar); }
+.langswitch [lang="en"] { font-family: var(--font-en); }
+
+/* ---- Page body + sticky footer for the main action ------------------------------ */
+.phone__scroll { padding-block-start: var(--sp-2); }
+.page-foot {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3) 1.25rem calc(var(--sp-4) + env(safe-area-inset-bottom, 0px));
+  border-block-start: 1px solid var(--border);
+  background: var(--bg);
+}
+
+/* Section heading inside a screen */
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  font-size: 1.25rem;
+  font-weight: var(--fw-bold);
+  line-height: 1.35;
+}
+.lead { font-size: var(--fs-body); color: var(--text-muted); }
+
+/* A calm info note (used for "goals don't change the number" etc.) */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--primary-soft);
+  color: var(--on-primary-soft);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+.note .icon { flex: none; margin-top: 0.1rem; }
+.note--sand { background: var(--accent-soft); color: var(--on-accent-soft); }
+.note--careful { background: var(--careful-bg); color: var(--careful-fg); }
+
+/* Calm icon variant for confirms that are not destructive */
+.modal__icon--calm { background: var(--primary-soft); color: var(--primary-text); }
+
+/* Logo */
+.logo { width: 4rem; height: 4rem; flex: none; }
+.logo--lg { width: 5rem; height: 5rem; }
+
+/* Big number used outside the hero card */
+.big-num { font-size: 2.5rem; font-weight: var(--fw-bold); line-height: 1.15; font-variant-numeric: tabular-nums; }
+[lang="ar"] .big-num { line-height: 1.3; }
+
+/* Key/value line inside cards */
+.kv { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); padding-block: var(--sp-2); }
+.kv + .kv { border-block-start: 1px solid var(--border); }
+.kv__k { color: var(--text-muted); font-size: var(--fs-small); }
+.kv__v { font-weight: var(--fw-bold); white-space: nowrap; }
+
+/* ---- Review tools (outside the phone; for people reviewing the design) ---------
+   Dark "tool" colours so they never look like part of the app.
+   Phone: a slim strip on top that tucks away while you scroll.
+   Tablet: a strip above a true-size phone.  Desktop: a side panel. */
+.demo-bar {
+  --rv-line: color-mix(in srgb, var(--inverse-text) 22%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  max-height: 14rem;
+  overflow: hidden;
+  padding: var(--sp-1) var(--sp-2);
+  padding-block-start: calc(var(--sp-1) + env(safe-area-inset-top, 0px));
+  background: var(--inverse-bg);
+  color: var(--inverse-text);
+  transition: max-height var(--dur-slow) var(--ease), padding var(--dur-slow) var(--ease);
+}
+.demo-bar.is-tucked { max-height: 0; padding-block: 0; }
+.demo-bar :focus-visible { outline-color: var(--inverse-accent); }
+.demo-bar__label { display: none; }
+.demo-bar__row { display: flex; align-items: center; gap: var(--sp-1); width: 100%; max-width: 40rem; margin-inline: auto; }
+.demo-bar__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3rem; height: 3rem;
+  border-radius: 50%;
+  color: inherit;
+  text-decoration: none;
+}
+.demo-bar__icon:hover, .demo-bar__icon:active { background: var(--rv-line); }
+.demo-bar__where { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; line-height: 1.25; text-align: center; }
+.demo-bar__count { font-size: var(--fs-small); opacity: 0.8; font-variant-numeric: tabular-nums; }
+.demo-bar__name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-small); font-weight: var(--fw-bold); }
+.demo-bar__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex: none;
+  min-height: 3rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--rv-line);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--inverse-accent);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+.demo-bar__toggle[aria-expanded="true"] { background: var(--rv-line); }
+.demo-bar__caret { width: 1.125rem; height: 1.125rem; transform: rotate(90deg); transition: transform var(--dur) var(--ease); }
+.demo-bar__toggle[aria-expanded="true"] .demo-bar__caret { transform: rotate(-90deg); }
+.demo-bar__list {
+  display: flex;
+  gap: var(--sp-2);
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+  overflow-x: auto;
+  padding-block-end: var(--sp-2);
+  scrollbar-width: thin;
+}
+.demo-bar__btn {
+  flex: none;
+  min-height: 3rem;
+  padding: 0 1rem;
+  border: 1px dashed var(--rv-line);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: inherit;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+.demo-bar__btn:hover { background: var(--rv-line); }
+.demo-bar__btn[aria-checked="true"] { border-style: solid; border-color: var(--inverse-accent); background: var(--inverse-accent); color: var(--inverse-bg); font-weight: var(--fw-bold); }
+
+/* Phones: the strip sits on top and the phone fills the rest of the screen */
+body:has(> .demo-bar) { display: flex; flex-direction: column; height: 100dvh; }
+body:has(> .demo-bar) > .demo-bar { flex: none; }
+body:has(> .demo-bar) .phone { flex: 1 1 auto; min-height: 0; height: auto; }
+
+@media (min-width: 560px) {
+  body:has(> .demo-bar) { display: block; height: auto; }
+  body:has(> .demo-bar) .phone { height: calc(var(--phone-h) + 20px); }
+  .demo-bar { max-height: none; }
+  .demo-bar.is-tucked { max-height: none; padding-block: var(--sp-1); }
+}
+
+/* Desktop: a side panel, the phone gets the whole height */
+@media (min-width: 1000px) {
+  body:has(> .demo-bar) { padding-inline-start: 17rem; }
+  .demo-bar {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 70;
+    width: 16rem;
+    gap: var(--sp-3);
+    padding: var(--sp-4);
+    overflow-y: auto;
+  }
+  .demo-bar__label { display: block; font-size: var(--fs-small); font-weight: var(--fw-bold); letter-spacing: 0.04em; opacity: 0.75; }
+  .demo-bar__row { flex-wrap: wrap; justify-content: space-between; }
+  .demo-bar__where { order: -1; flex-basis: 100%; align-items: flex-start; text-align: start; padding-block-end: var(--sp-2); border-block-end: 1px solid var(--rv-line); }
+  .demo-bar__name { font-size: 1.25rem; white-space: normal; }
+  .demo-bar__toggle { display: none; }
+  .demo-bar__list { flex-direction: column; overflow: visible; }
+  .demo-bar__btn { white-space: normal; text-align: start; padding-block: var(--sp-2); }
+}
+
+/* ---- Phone status bar (only on the desktop phone frame and in screenshots) -------- */
+.phone__status { display: none; }
+@media (min-width: 560px) {
+  .phone__status {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2.875rem;
+    padding-inline: 1.75rem 1.25rem;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-en);
+    font-size: 1rem;
+    font-weight: var(--fw-semibold);
+  }
+}
+html.is-capture .phone__status {
+  position: relative; flex: none; display: flex; align-items: center; justify-content: space-between;
+  height: 2.875rem; padding-inline: 1.75rem 1.25rem; background: var(--bg); color: var(--text);
+  font-family: var(--font-en); font-size: 1rem; font-weight: var(--fw-semibold);
+}
+.phone__island {
+  position: absolute;
+  inset-block-start: 0.625rem;
+  inset-inline-start: 50%;
+  width: 7.5rem; height: 2.125rem;
+  border-radius: var(--r-pill);
+  background: var(--phone-bezel);
+  transform: translateX(calc(var(--flip) * -50%));
+}
+.phone__sys { display: flex; align-items: center; gap: 0.375rem; }
+.phone__sys svg { width: 1.125rem; height: 1.125rem; fill: currentColor; }
+.phone__sys .phone__bat { width: 1.625rem; }
+
+/* Screenshot mode (?capture): no review bar, the phone fills the window */
+html.is-capture .phone { max-width: none; }
+
+/* ---- Amount sheet (TZ.keypad.sheet) ----------------------------------------------- */
+.amount-sheet { display: flex; flex-direction: column; gap: var(--sp-3); }
+.amount-sheet .sheet__title { margin-block-end: 0; }
+.amount-sheet__extra { display: flex; flex-direction: column; gap: var(--sp-3); }
+.amount-sheet__pad { display: flex; flex-direction: column; gap: var(--sp-3); }
+.amount-sheet .amount { box-shadow: none; background: var(--surface-2); padding-block: var(--sp-3); }
+.amount-sheet .amount__value { font-size: 2.5rem; }
+.amount-sheet .key { min-height: 3.5rem; font-size: 1.5rem; }
+.amount-sheet__actions { display: flex; flex-direction: column; gap: var(--sp-1); }
+
+/* Text field (name of a payment, a person, a goal) */
+.field { display: flex; flex-direction: column; gap: var(--sp-1); }
+.field__label { font-size: var(--fs-small); font-weight: var(--fw-semibold); }
+.field__input {
+  min-height: 3.5rem;
+  padding: 0 var(--sp-4);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-body);
+}
+.field__input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-color: var(--primary); }
+.field__error { font-size: var(--fs-small); color: var(--careful-fg); }
+
+
+/* Shared fixes found while building pages */
+[data-theme="dark"] .progress__track { background: var(--border); }
+.phone:has(.overlay.is-open) > .toast { visibility: hidden; }   /* never cover a sheet's Save button */

@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Tawazon Plus — "spent more than planned" choices sheet + "ran out" screen
+   (assets/js/overspend.js). Calm: no red, no alarm. Tokens only.
+   ========================================================================== */
+
+.os-sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding-block-end: var(--sp-6);
+}
+
+.os-sheet > * { flex-shrink: 0; }   /* scroll the sheet, never squash its parts */
+
+/* Close (top, end side) */
+.os-x {
+  position: absolute;
+  inset-block-start: var(--sp-3);
+  inset-inline-end: var(--sp-3);
+  display: grid;
+  place-items: center;
+  width: 3rem; height: 3rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  transition: background var(--dur-fast) var(--ease);
+}
+.os-x:hover { background: var(--primary-soft); color: var(--primary-text); }
+.os-x .icon { width: 1.375rem; height: 1.375rem; }
+
+/* Mascot + kind title */
+.os-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-inline: var(--sp-6);
+  text-align: center;
+}
+.os-mascot { width: 4.5rem; height: 4.5rem; }
+.os-title { font-size: 1.375rem; font-weight: var(--fw-bold); line-height: 1.3; }
+.os-title bdi { white-space: nowrap; }
+.os-title:focus { outline: none; }   /* focused on open so screen readers start here; not interactive */
+.os-sub { font-size: var(--fs-body); color: var(--text-muted); line-height: 1.4; }
+
+/* ---- Choices: big radio cards ---------------------------------------------- */
+.os-choices { display: flex; flex-direction: column; gap: var(--sp-3); margin: 0; padding: 0; border: 0; min-width: 0; }
+.os-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  min-height: 3rem;
+  padding: var(--sp-4);
+  border: 2px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.os-choice:hover { border-color: var(--border-strong); }
+.os-choice:has(.os-radio:checked) { border-color: var(--primary); background: var(--primary-soft); }
+.os-choice:has(.os-radio:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+.os-choice .row__icon { margin-block-start: var(--sp-1); }
+.os-choice:has(.os-radio:checked) .row__icon:not(.row__icon--sand) { background: var(--surface); }
+
+.os-choice__body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.125rem; }
+.os-choice__title { font-size: var(--fs-body); font-weight: var(--fw-semibold); line-height: 1.3; }
+.os-line { font-size: var(--fs-small); color: var(--text-muted); line-height: 1.4; }
+.os-choice:has(.os-radio:checked) .os-line { color: var(--on-primary-soft); }
+
+/* The resulting daily number on each choice (brand teal = the daily number) */
+.os-result {
+  font-size: 1.375rem;
+  font-weight: var(--fw-bold);
+  line-height: 1.3;
+  color: var(--primary-text);
+  font-variant-numeric: tabular-nums;
+}
+.os-result bdi { white-space: nowrap; }
+
+.os-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-block-end: var(--sp-1);
+  padding: 0.125rem var(--sp-2);
+  border-radius: var(--r-pill);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  line-height: 1.4;
+}
+.os-tag .icon { width: 1rem; height: 1rem; }
+
+/* Native radio, drawn big and calm (arrow keys move between choices) */
+.os-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.75rem; height: 1.75rem;
+  margin: var(--sp-2) 0 0;
+  border: 2px solid var(--border-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  cursor: pointer;
+}
+.os-radio::after {
+  content: '';
+  width: 0.875rem; height: 0.875rem;
+  border-radius: 50%;
+  background: var(--primary);
+  transform: scale(0);
+  transition: transform var(--dur-fast) var(--ease);
+}
+.os-radio:checked { border-color: var(--primary); }
+.os-radio:checked::after { transform: scale(1); }
+.os-radio:focus-visible { outline: none; }   /* the whole card shows the focus ring */
+
+.os-go { margin-block-start: var(--sp-1); }
+
+/* ---- Ran out: full-height calm screen ------------------------------------ */
+.os-overlay--full .os-full {
+  height: calc(100% - 3rem);
+  max-height: none;
+  padding-block-start: var(--sp-6);
+}
+.os-overlay--full .os-mascot { width: 5rem; height: 5rem; }
+
+.os-zero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-4);
+  border-radius: var(--r-card);
+  background: var(--surface-2);
+  text-align: center;
+}
+.os-zero__k { font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--text-muted); }
+.os-zero__num { display: flex; align-items: baseline; gap: var(--sp-2); color: var(--primary-text); line-height: 1.1; }
+.os-zero__num bdi { font-size: 3rem; font-weight: var(--fw-bold); }
+.os-zero__num span { font-size: 1.25rem; font-weight: var(--fw-semibold); }
+.os-zero__days {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-block-start: var(--sp-1);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  color: var(--primary-text);
+}
+.os-zero__days .icon { width: 1.125rem; height: 1.125rem; }
+.os-zero__note { font-size: var(--fs-small); color: var(--text-muted); }
+
+.os-help-title { margin-block-end: calc(var(--sp-2) * -1); }
+.os-helps { padding: 0; list-style: none; }
+.os-helps > li { border-block-end: 1px solid var(--border); }
+.os-helps > li:last-child { border-block-end: 0; }
+.os-help { border-block-end: 0; align-items: center; }
+.os-help .row__body { display: flex; flex-direction: column; align-items: flex-start; gap: 0.125rem; }
+.os-help:focus-visible { outline-offset: -3px; }
+.os-result--sm {
+  margin-block-start: var(--sp-1);
+  padding: 0.125rem var(--sp-2);
+  border-radius: var(--r-pill);
+  background: var(--primary-soft);
+  color: var(--on-primary-soft);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+
+/* Large text: let the choice cards breathe */
+html[data-text-size="xlarge"] .os-head { padding-inline: var(--sp-8); }
+html[data-text-size="xlarge"] .os-choice .row__icon { display: none; }
+html[data-text-size="xlarge"] .os-result { font-size: 1.25rem; }
+html[data-text-size="xlarge"] .os-zero__num bdi { font-size: 2.5rem; }

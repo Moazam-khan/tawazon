@@ -1,0 +1,130 @@
+/* Reveal — the first daily number. Calm build-up, then one big moment. */
+
+.rv-screen { justify-content: center; text-align: center; }
+
+/* ---- Build-up ------------------------------------------------------------- */
+.rv-screen--math { gap: var(--sp-8); }
+.rv-math { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+.rv-math .mascot { margin-block-end: var(--sp-3); }
+.rv-think { animation: mascot-float 3s ease-in-out infinite; }
+
+.rv-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  text-align: start;
+}
+.rv-line {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: 3.75rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  color: var(--text-muted);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.rv-line.is-done { color: var(--text); background: var(--surface-2); }
+.rv-line__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem; height: 2.5rem;
+  border-radius: 50%;
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+}
+.rv-line.is-done .rv-line__icon { background: var(--primary-soft); color: var(--primary-text); }
+.rv-line__icon .icon { width: 1.25rem; height: 1.25rem; }
+.rv-line__text { flex: 1; min-width: 0; font-size: var(--fs-small); font-weight: var(--fw-medium); line-height: 1.35; }
+.rv-line__val { font-weight: var(--fw-bold); white-space: nowrap; animation: fade-up var(--dur-slow) var(--ease) both; }
+.rv-line__mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.75rem; height: 1.75rem;
+  border-radius: 50%;
+  color: var(--on-primary);
+}
+.rv-line.is-done .rv-line__mark { background: var(--primary); animation: rv-pop var(--dur-slow) var(--ease) both; }
+.rv-line__mark .icon { width: 1.125rem; height: 1.125rem; stroke-width: 3; }
+.rv-dot {
+  width: 0.5rem; height: 0.5rem;
+  border-radius: 50%;
+  background: var(--border-strong);
+  animation: rv-breathe 1s ease-in-out infinite;
+}
+@keyframes rv-breathe { 50% { opacity: 0.3; transform: scale(0.7); } }
+@keyframes rv-pop { from { transform: scale(0.4); opacity: 0; } 70% { transform: scale(1.12); } to { transform: none; opacity: 1; } }
+
+/* ---- The number ----------------------------------------------------------- */
+.rv-screen--result { gap: var(--sp-4); }
+.rv-stage { position: relative; display: grid; place-items: center; margin-block-end: var(--sp-2); }
+.rv-halo {
+  position: absolute;
+  width: 11rem; height: 11rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft) 0%, var(--primary-soft) 55%, transparent 72%);
+  animation: rv-halo var(--dur-slow) var(--ease) both, rv-glow 4s ease-in-out 0.6s infinite;
+}
+.rv-mascot { position: relative; animation: rv-rise 700ms var(--ease) both; }
+@keyframes rv-halo { from { transform: scale(0.4); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes rv-glow { 50% { transform: scale(1.06); } }
+@keyframes rv-rise { from { transform: translateY(18px) scale(0.85); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.rv-head { display: flex; flex-direction: column; align-items: center; gap: var(--sp-1); }
+.rv-eyebrow { font-size: 1.25rem; font-weight: var(--fw-semibold); color: var(--text-muted); animation: fade-up var(--dur-slow) var(--ease) 120ms both; }
+.rv-number {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--sp-2);
+  color: var(--primary-text);
+  animation: fade-up var(--dur-slow) var(--ease) 180ms both;
+}
+.rv-number__value { font-size: 5.5rem; font-weight: var(--fw-bold); line-height: 1; letter-spacing: -0.03em; }
+.rv-number__cur { font-size: 1.75rem; font-weight: var(--fw-semibold); }
+[lang="ar"] .rv-number__value { letter-spacing: 0; line-height: 1.15; }
+
+.rv-speak { align-self: center; animation: fade-up var(--dur-slow) var(--ease) 700ms both; }
+
+.rv-facts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  animation: fade-up var(--dur-slow) var(--ease) 900ms both;
+}
+.rv-days {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+  color: var(--text);
+}
+.rv-days .icon { color: var(--primary-text); width: 1.25rem; height: 1.25rem; }
+
+.rv-same {
+  max-width: 19rem;
+  margin-inline: auto;
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--border);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+  animation: fade-up var(--dur-slow) var(--ease) 1100ms both;
+}
+.rv-screen .note { text-align: start; }
+
+.rv-foot { border-block-start: 0; }
+.rv-foot.is-shown { animation: fade-up var(--dur-slow) var(--ease) 1200ms both; }
+.rv-foot .btn--text { min-height: 3.5rem; }
+
+/* Large text: keep the number big but inside the phone */
+html[data-text-size="xlarge"] .rv-number__value { font-size: 4.25rem; }
+html[data-text-size="xlarge"] .rv-stage .mascot--lg { width: 6rem; height: 6rem; }
+html[data-text-size="xlarge"] .rv-halo { width: 8.5rem; height: 8.5rem; }

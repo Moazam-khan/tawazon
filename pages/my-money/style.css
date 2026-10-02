@@ -1,0 +1,240 @@
+/* My money — layout for this page (also loaded by debt-details for the shared bits).
+   Shared styling lives in assets/css. */
+
+/* ---- Dashboard: one tile per section, nothing hidden --------------------------- */
+.phone__scroll { padding-block-start: var(--sp-2); }
+.mm-dash__lead { font-size: var(--fs-small); }
+.mm-dash {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));   /* 2 columns; 1 at the largest text size */
+  gap: var(--sp-3);
+}
+.mm-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-height: 9rem;
+  padding: var(--sp-4);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--text);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.mm-tile:hover { box-shadow: var(--shadow-md); }
+.mm-tile:active { transform: scale(0.98); }
+.mm-tile__top { display: flex; align-items: center; justify-content: space-between; margin-block-end: var(--sp-2); }
+.mm-tile__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem; height: 2.75rem;
+  border-radius: var(--r-sm);
+  background: var(--primary-soft);
+  color: var(--primary-text);
+}
+/* money in or kept (people owe me, savings, goals) = sand; things I pay = teal */
+.mm-tile--owed .mm-tile__icon, .mm-tile--savings .mm-tile__icon, .mm-tile--goals .mm-tile__icon { background: var(--accent-soft); color: var(--on-accent-soft); }
+.mm-tile__chev { width: 1.25rem; height: 1.25rem; color: var(--text-muted); }
+.mm-tile__label { font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--text-muted); }
+.mm-tile__amount { font-size: 1.5rem; font-weight: var(--fw-bold); line-height: 1.25; font-variant-numeric: tabular-nums; }
+[lang="ar"] .mm-tile__amount { line-height: 1.45; }
+.mm-tile__sub { font-size: var(--fs-small); color: var(--text-muted); line-height: 1.4; }
+.mm-tile--goals { grid-column: 1 / -1; min-height: 0; }
+.mm-tile__bar { display: block; margin-block-start: var(--sp-2); }
+
+/* ---- Panels ------------------------------------------------------------------ */
+.mm-panel { display: flex; flex-direction: column; gap: var(--sp-4); }
+
+/* Summary card at the top of each section */
+.mm-sum { display: flex; flex-direction: column; gap: var(--sp-1); }
+.mm-sum__top { display: flex; align-items: center; gap: var(--sp-3); }
+.mm-sum__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem; height: 2.5rem;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-text);
+}
+.mm-sum__icon .icon { width: 1.375rem; height: 1.375rem; }
+.mm-sum__icon--sand { background: var(--accent-soft); color: var(--on-accent-soft); }
+.mm-sum__label { font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--text-muted); line-height: 1.4; }
+.mm-sum__value { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); margin-block-start: var(--sp-2); }
+.mm-sum__num { font-size: 2.5rem; font-weight: var(--fw-bold); line-height: 1.15; letter-spacing: -0.01em; }
+.mm-sum__cur { font-size: 1.25rem; font-weight: var(--fw-semibold); color: var(--text-muted); }
+.mm-sum__line { font-size: var(--fs-small); color: var(--text-muted); }
+[lang="ar"] .mm-sum__num { line-height: 1.35; letter-spacing: 0; }
+
+/* Lists of items (fixed payments, people) */
+.mm-list { margin: 0; }
+.mm-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-block-end: 1px solid var(--border);
+}
+.mm-list > .mm-item:last-child, .mm-list > .mm-row:last-child { border-block-end: 0; }
+.mm-item__main { display: flex; align-items: flex-start; gap: var(--sp-3); }
+.mm-item__main .row__icon { margin-block-start: 0.125rem; }
+.mm-item__body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.mm-item__line { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; column-gap: var(--sp-3); }
+.mm-item__line .row__title { min-width: 0; }
+.mm-sub > span { white-space: nowrap; }
+.mm-item__foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.mm-row { flex-direction: row; align-items: center; padding-block: var(--sp-3); }
+.mm-row .mm-item__main { flex: 1; min-width: 0; align-items: center; }
+.mm-row .mm-icon-btn { margin-inline-end: calc(-1 * var(--sp-2)); }
+.mm-share { display: block; margin-block-start: var(--sp-1); font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--primary-text); }
+
+/* Cards (debts, goals) */
+.mm-cards { display: flex; flex-direction: column; gap: var(--sp-3); }
+.mm-debt { display: flex; flex-direction: column; gap: var(--sp-4); color: inherit; text-decoration: none; transition: box-shadow var(--dur) var(--ease); }
+.mm-debt:hover { box-shadow: var(--shadow-md); }
+.mm-debt:active { background: var(--surface-2); }
+.mm-debt__top { display: flex; align-items: center; gap: var(--sp-2); }
+.mm-debt__top .mm-item__main { flex: 1; min-width: 0; }
+
+.mm-debt__progress, .mm-debt__progress span.progress__track, .mm-debt__progress span.progress__fill { display: block; }
+.mm-debt .progress__head { display: flex; flex-wrap: wrap; }
+.mm-goal { display: flex; flex-direction: column; gap: var(--sp-4); }
+.mm-goal__pct { color: var(--accent-text); }
+.mm-goal .progress__track, .mm-debt .progress__track { background: var(--border); }
+.mm-suggest {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--accent-soft);
+  color: var(--on-accent-soft);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+.mm-suggest .icon { width: 1.25rem; height: 1.25rem; margin-block-start: 0.15rem; }
+
+/* Small pieces */
+.mm-tools { display: flex; gap: var(--sp-1); margin-inline-start: auto; }
+.mm-icon-btn {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3rem; height: 3rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  -webkit-tap-highlight-color: transparent;
+}
+.mm-icon-btn .icon { width: 1.375rem; height: 1.375rem; }
+.mm-icon-btn:hover { background: var(--surface-2); color: var(--text); }
+.mm-icon-btn:active { background: var(--primary-soft); }
+.mm-soft-btn { --btn-bg: var(--primary-soft); --btn-fg: var(--on-primary-soft); min-height: 3rem; padding-inline: 1rem 1.25rem; }
+.mm-soft-btn:hover { --btn-bg: var(--primary-soft); --btn-border: var(--primary); }
+.mm-soft-btn:active { transform: scale(0.97); }
+.mm-soft-btn .icon { width: 1.25rem; height: 1.25rem; }
+.mm-receive { flex: 1 1 12rem; min-height: 3.5rem; font-size: var(--fs-body); }
+.mm-tag {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--sp-1);
+  min-height: 2.25rem;
+  padding-inline: 0.625rem 0.875rem;
+  border-radius: var(--r-pill);
+  background: var(--good-bg);
+  color: var(--good-fg);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+.mm-tag .icon { width: 1.125rem; height: 1.125rem; }
+.mm-tag--sand { background: var(--accent-soft); color: var(--on-accent-soft); }   /* a celebration (goal reached), not a status */
+.mm-add { box-shadow: none; }
+.mm-empty { padding-block: var(--sp-8); }
+.mm-empty .mascot { width: 6.5rem; height: 6.5rem; }
+
+/* ---- Inside the amount sheets ------------------------------------------------- */
+.mm-field { display: flex; flex-direction: column; gap: var(--sp-2); }
+.mm-chips .chip .icon { width: 1.25rem; height: 1.25rem; }
+.mm-row2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); align-items: end; gap: var(--sp-3); }
+.mm-select { width: 100%; padding-inline-end: var(--sp-3); }
+.mm-error { display: flex; align-items: center; gap: var(--sp-2); }
+.mm-error .icon { width: 1.25rem; height: 1.25rem; }
+.field__input[aria-invalid="true"] { border-color: var(--careful-fg); }
+.mm-share--sheet { margin: 0; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm); background: var(--primary-soft); color: var(--on-primary-soft); }
+.mm-preview > span { display: flex; flex-direction: column; gap: var(--sp-1); }
+.mm-preview__line { font-size: var(--fs-body); }
+
+/* An open sheet or confirm sits above an older toast: hide the toast meanwhile */
+.phone:has(.overlay.is-open) .toast { visibility: hidden; }
+
+/* ---- "Remind on WhatsApp" (remind.js) ------------------------------------------------ */
+.mm-remind { min-height: 3rem; }
+.mm-remind .icon { width: 1.375rem; height: 1.375rem; }
+.rm-sheet { display: flex; flex-direction: column; gap: var(--sp-4); }
+.rm-sheet .sheet__handle { margin-block-end: 0; }
+.rm-head { display: flex; align-items: flex-start; gap: var(--sp-2); }
+.rm-head .sheet__title { flex: 1; min-width: 0; margin-block-end: 0; padding-block-start: var(--sp-2); line-height: 1.3; }
+.rm-head .mm-icon-btn { margin-inline-end: calc(var(--sp-2) * -1); }
+.rm-lead { margin-block-start: calc(var(--sp-3) * -1); font-size: var(--fs-small); color: var(--text-muted); }
+.rm-group { display: flex; flex-direction: column; gap: var(--sp-2); }
+.rm-labelrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-1) var(--sp-3); }
+
+/* "Write in English / اكتب بالعربي" — written in the language it switches to */
+.rm-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: 3rem;
+  padding-inline: var(--sp-3) var(--sp-4);
+  border: 2px solid var(--border);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--primary-text);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+.rm-lang .icon { width: 1.25rem; height: 1.25rem; }
+.rm-lang:hover { border-color: var(--primary); }
+.rm-lang:active { background: var(--primary-soft); }
+.rm-lang [lang="ar"], .rm-bubble[lang="ar"] { font-family: var(--font-ar); }
+.rm-lang [lang="en"], .rm-bubble[lang="en"] { font-family: var(--font-en); }
+
+/* The message as it will look: an outgoing chat bubble on a quiet chat wall */
+.rm-chat { padding: var(--sp-3); border-radius: var(--r-md); background: var(--bg-sunken); }
+.rm-bubble {
+  display: block;
+  width: 100%;
+  min-height: 9rem;
+  max-height: 18rem;
+  field-sizing: content;
+  padding: var(--sp-3) var(--sp-4);
+  border: 2px solid transparent;
+  border-radius: var(--r-card);
+  border-end-end-radius: var(--sp-1);
+  background: var(--primary-soft);
+  color: var(--on-primary-soft);
+  box-shadow: var(--shadow-sm);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  resize: vertical;
+}
+.rm-bubble:hover { border-color: var(--border-strong); }
+.rm-bubble:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-color: var(--primary); }
+
+.rm-actions { display: flex; flex-direction: column; gap: var(--sp-2); }
+.rm-hint, .rm-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-small);
+  text-align: center;
+}
+.rm-hint { color: var(--text-muted); }
+.rm-status { color: var(--good-fg); font-weight: var(--fw-semibold); }
+.rm-status:empty { display: none; }
+.rm-hint .icon, .rm-status .icon { width: 1.25rem; height: 1.25rem; }

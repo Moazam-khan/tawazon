@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tawazon Plus – Design System</title>
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#0E6B5C">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../assets/css/tokens.css">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/rtl.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="ds">
+
+  <!-- Page chrome (follows the PAGE language) -->
+  <header class="ds-bar">
+    <div class="ds-bar__title">
+      <span class="ds-bar__brand" data-i18n="brand.name"></span>
+      <span class="ds-bar__sub" data-i18n="ds.title"></span>
+    </div>
+
+    <div class="ds-ctl">
+      <span class="ds-ctl__label" data-i18n="ds.pageLang"></span>
+      <div class="segmented" role="radiogroup" data-i18n-aria="ds.pageLang">
+        <button class="segmented__btn" role="radio" aria-checked="true"  data-set-lang="en" type="button" data-i18n="lang.en"></button>
+        <button class="segmented__btn" role="radio" aria-checked="false" data-set-lang="ar" type="button" data-i18n="lang.ar"></button>
+      </div>
+    </div>
+
+    <div class="ds-ctl">
+      <span class="ds-ctl__label" data-i18n="ds.theme"></span>
+      <div class="segmented" role="radiogroup" data-i18n-aria="ds.theme">
+        <button class="segmented__btn" role="radio" aria-checked="true"  data-theme-set="light" type="button" data-i18n="ds.light"></button>
+        <button class="segmented__btn" role="radio" aria-checked="false" data-theme-set="dark"  type="button" data-i18n="ds.dark"></button>
+      </div>
+    </div>
+
+    <div class="ds-ctl">
+      <span class="ds-ctl__label" data-i18n="ds.textSize"></span>
+      <div class="segmented" role="radiogroup" data-i18n-aria="ds.textSize">
+        <button class="segmented__btn ds-size ds-size--1" role="radio" aria-checked="true"  data-size="normal" type="button" data-i18n-aria="ds.sizeNormal">A</button>
+        <button class="segmented__btn ds-size ds-size--2" role="radio" aria-checked="false" data-size="large"  type="button" data-i18n-aria="ds.sizeLarge">A</button>
+        <button class="segmented__btn ds-size ds-size--3" role="radio" aria-checked="false" data-size="xlarge" type="button" data-i18n-aria="ds.sizeXlarge">A</button>
+      </div>
+    </div>
+
+    <div class="ds-ctl">
+      <span class="ds-ctl__label" data-i18n="ds.digits"></span>
+      <div class="segmented" role="radiogroup" data-i18n-aria="ds.digits">
+        <button class="segmented__btn" role="radio" aria-checked="true"  data-digits="latn" type="button" data-i18n="ds.digitsLatn"></button>
+        <button class="segmented__btn" role="radio" aria-checked="false" data-digits="arab" type="button" data-i18n="ds.digitsArab"></button>
+      </div>
+    </div>
+
+    <div class="ds-ctl">
+      <span class="ds-ctl__label" data-i18n="ds.sync"></span>
+      <button class="toggle" id="sync-toggle" role="switch" aria-checked="true" type="button" data-i18n-aria="ds.sync">
+        <span class="toggle__track"></span><span class="toggle__thumb"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- The two phones are always English (LTR) and Arabic (RTL) -->
+  <main class="ds-stage">
+    <section class="ds-frame" data-lang="en" lang="en" dir="ltr">
+      <p class="ds-frame__cap" data-i18n="ds.frameCaption"></p>
+      <div class="phone" id="phone-en"></div>
+    </section>
+
+    <section class="ds-frame" data-lang="ar" lang="ar" dir="rtl">
+      <p class="ds-frame__cap" data-i18n="ds.frameCaption"></p>
+      <div class="phone" id="phone-ar"></div>
+    </section>
+  </main>
+
+  <script src="../../assets/lang/en.js"></script>
+  <script src="../../assets/lang/ar.js"></script>
+  <script src="../../assets/js/i18n.js"></script>
+  <script src="../../assets/js/icons.js"></script>
+  <script src="../../assets/js/common.js"></script>
+  <script src="../../assets/js/mock-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

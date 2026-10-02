@@ -1,0 +1,216 @@
+/* Setup — layout for this page only. Shared styling lives in assets/css. */
+
+/* ---- Progress: a thin bar + "Question 1 of 3" under the header ------------- */
+.su-progress-row {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-inline: 1.25rem;
+}
+.su-progress-text {
+  flex: none;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.su-progress {
+  flex: 1;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  background: var(--bg-sunken);
+}
+.su-progress__fill {
+  width: var(--value, 33%);
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--primary);
+  transition: width var(--dur-slow) var(--ease);
+}
+
+/* ---- Question screens ------------------------------------------------------ */
+.su-main { padding-block-start: var(--sp-4); }
+.su-step { gap: var(--sp-6); }
+.su-head { display: flex; flex-direction: column; gap: var(--sp-2); }
+.su-q {
+  font-size: var(--fs-title);
+  font-weight: var(--fw-bold);
+  line-height: 1.25;
+}
+[lang="ar"] .su-q { line-height: 1.5; }
+.su-q:focus, .su-block .section-title:focus { outline: none; }   /* focus is moved here for screen readers only */
+
+/* Slide between questions; --flip mirrors the direction in Arabic */
+@keyframes su-slide {
+  from { opacity: 0; transform: translateX(calc(var(--flip) * var(--su-dx))); }
+  to   { opacity: 1; transform: none; }
+}
+.su-step--fwd  { --su-dx: 2rem;  animation: su-slide var(--dur-slow) var(--ease) both; }
+.su-step--back { --su-dx: -2rem; animation: su-slide var(--dur-slow) var(--ease) both; }
+
+/* ---- 1. Salary ---------------------------------------------------------------- */
+.su-pad { display: flex; flex-direction: column; gap: var(--sp-3); }
+.su-pad .amount__value { font-size: 2.75rem; }
+.su-example { align-self: center; margin-block-start: calc(var(--sp-2) * -1); }
+.su-example .icon { width: 1.25rem; height: 1.25rem; }
+
+/* ---- 2. Pay day ----------------------------------------------------------------- */
+.su-days {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-2);
+}
+[data-text-size="xlarge"] .su-days { column-gap: var(--sp-1); }   /* keeps every day >= 48px wide */
+.su-day {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 3.25rem;
+  padding: 0;
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.su-day:hover { border-color: var(--primary); }
+.su-day:active { transform: scale(0.95); }
+.su-day[aria-checked="true"] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-btn);
+}
+.su-day--last {
+  grid-column: span 5;
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding-inline: var(--sp-3);
+  font-size: var(--fs-small);
+  line-height: 1.3;
+}
+.su-day--last .icon { width: 1.25rem; height: 1.25rem; }
+
+.su-dayinfo { display: flex; flex-direction: column; gap: var(--sp-3); }
+.su-next {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.su-next__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--primary-soft);   /* time (next salary date) = teal */
+  color: var(--primary-text);
+}
+.su-next__body { display: flex; flex-direction: column; min-width: 0; }
+.su-next__title { font-weight: var(--fw-semibold); line-height: 1.35; }
+.su-next__sub { font-size: var(--fs-small); color: var(--text-muted); }
+
+/* ---- 3. Fixed payments ---------------------------------------------------------- */
+.su-block { display: flex; flex-direction: column; gap: var(--sp-3); }
+.su-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding-inline-end: var(--sp-2);
+  border-block-end: 1px solid var(--border);
+}
+.su-item:last-child { border-block-end: 0; }
+.su-item__main { flex: 1; min-width: 0; border-block-end: 0; padding-inline-end: var(--sp-2); }
+.su-item__line { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; column-gap: var(--sp-2); }
+.su-item .row__title { flex: 1 1 auto; min-width: 0; overflow-wrap: break-word; }
+.su-item__line .num { flex: none; font-weight: var(--fw-bold); white-space: nowrap; }
+.su-item__edit { display: grid; color: var(--text-muted); }
+.su-item__main:focus-visible, .su-item .su-iconbtn:focus-visible { outline-offset: -3px; }
+.su-item__main:focus-visible { border-radius: var(--r-md); }
+.su-item__edit .icon { width: 1.25rem; height: 1.25rem; }
+.su-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-block-start: var(--sp-1);
+  padding: 0 var(--sp-2);
+  border-radius: var(--r-pill);
+  background: var(--surface-2);   /* a plain label, not warmth */
+  box-shadow: inset 0 0 0 1px var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+}
+.su-tag .icon { width: 1.125rem; height: 1.125rem; }
+.su-chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.su-chip { justify-content: flex-start; padding-inline: var(--sp-3); text-align: start; line-height: 1.25; }
+.su-iconbtn {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  -webkit-tap-highlight-color: transparent;
+}
+.su-iconbtn .icon { width: 1.375rem; height: 1.375rem; }
+.su-iconbtn:hover { background: var(--surface-2); color: var(--text); }
+.su-iconbtn:active { background: var(--primary-soft); }
+.su-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--bg-sunken);   /* set aside for payments: neutral, the teal is kept for the number below */
+  color: var(--text);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+}
+.su-total .num { font-size: var(--fs-body); font-weight: var(--fw-bold); white-space: nowrap; }
+.su-chip .su-chip__plus { width: 1.125rem; height: 1.125rem; margin-inline-start: auto; color: var(--text-muted); }
+
+/* Amount sheet extras: Monthly / Yearly, optional name */
+.su-sheet { display: flex; flex-direction: column; gap: var(--sp-3); }
+.su-every { display: flex; flex-direction: column; gap: var(--sp-2); }
+.su-every__note { font-size: var(--fs-small); color: var(--text-muted); }
+
+/* ---- Footer: live preview + main button ---------------------------------------- */
+.su-foot { gap: var(--sp-3); }
+.su-preview-slot:empty { display: none; }
+.su-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-block: var(--sp-2);
+  padding-inline: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-card);
+  background: var(--primary-soft);
+  color: var(--on-primary-soft);
+}
+.su-preview--enter { animation: fade-up var(--dur-slow) var(--ease) both; }
+.su-preview--care { background: var(--careful-bg); color: var(--careful-fg); }
+.su-preview__face { flex: none; display: grid; }
+.su-preview__mascot { width: 2.75rem; height: 2.75rem; }
+.su-preview__body { display: flex; flex-direction: column; min-width: 0; line-height: 1.35; }
+.su-preview__label, .su-preview__kept, .su-preview__text { font-size: var(--fs-small); }
+.su-preview__label { opacity: 0.9; }
+.su-preview__value { font-size: var(--fs-body); font-weight: var(--fw-bold); }
+.su-preview__kept { opacity: 0.9; }
+.su-preview__text { font-weight: var(--fw-medium); }

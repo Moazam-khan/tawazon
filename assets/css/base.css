@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Tawazon Plus — base: reset, typography, phone frame, utilities
+   Logical properties only (no left/right). See rtl.css for the few mirrors.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-size: 100%;                 /* 16px; user text-size setting scales this */
+  color-scheme: light;
+}
+html[data-theme="dark"] { color-scheme: dark; }
+html[data-text-size="large"]  { font-size: 112.5%; }  /* 18px */
+html[data-text-size="xlarge"] { font-size: 131.25%; } /* 21px */
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text);
+  font-family: var(--font-en);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Language drives the font. Works on <html> and on any scoped container. */
+[lang="en"] { font-family: var(--font-en); }
+[lang="ar"] { font-family: var(--font-ar); line-height: 1.7; letter-spacing: 0; }
+
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--primary-text); }
+
+/* Visible focus for keyboard users, everywhere */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ---- Typography scale --------------------------------------------------- */
+.t-hero  { font-size: var(--fs-hero);  font-weight: var(--fw-bold); line-height: 1; letter-spacing: -0.02em; }
+.t-title { font-size: var(--fs-title); font-weight: var(--fw-bold); line-height: 1.25; }
+.t-body  { font-size: var(--fs-body);  font-weight: var(--fw-regular); }
+.t-small { font-size: var(--fs-small); font-weight: var(--fw-regular); }
+[lang="ar"] .t-hero { letter-spacing: 0; line-height: 1.15; }
+
+.muted { color: var(--text-muted); }
+.num   { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+bdi, .amount-text { unicode-bidi: isolate; }
+
+/* ---- Layout helpers ------------------------------------------------------ */
+.stack   { display: flex; flex-direction: column; }
+.stack-2 { display: flex; flex-direction: column; gap: var(--sp-2); }
+.stack-3 { display: flex; flex-direction: column; gap: var(--sp-3); }
+.stack-4 { display: flex; flex-direction: column; gap: var(--sp-4); }
+.stack-6 { display: flex; flex-direction: column; gap: var(--sp-6); }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.between { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+[hidden] { display: none !important; }
+
+/* ---- Icons ---------------------------------------------------------------- */
+.icon {
+  width: 1.5rem; height: 1.5rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ==========================================================================
+   Phone frame — mobile first. On desktop it is shown inside a phone shape.
+   ========================================================================== */
+.phone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+  margin-inline: auto;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+
+@media (min-width: 560px) {
+  .phone {
+    /* a real 390 × 844 phone; on short screens the whole device is scaled
+       evenly (--phone-fit, set by shell.js) instead of being squashed */
+    width: calc(var(--phone-w) + 20px);
+    height: calc(var(--phone-h) + 20px);
+    zoom: var(--phone-fit, 1);
+    margin-block: 16px;
+    border: 10px solid var(--phone-bezel);
+    border-radius: 48px;
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.phone__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: var(--sp-6) 1.25rem var(--sp-8);
+}
+
+/* Screen content wrapper used by real pages in later steps */
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  min-height: 100%;
+}
+
+/* ---- Page transition (mirrored in RTL via --flip) ------------------------ */
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(calc(var(--flip) * 28px)); }
+  to   { opacity: 1; transform: none; }
+}
+.page-enter { animation: slide-in var(--dur-slow) var(--ease) both; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.fade-up { animation: fade-up var(--dur-slow) var(--ease) both; }
+
+/* ---- Respect reduced motion ----------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

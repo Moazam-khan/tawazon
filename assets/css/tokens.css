@@ -1,0 +1,199 @@
+/* ==========================================================================
+   Tawazon Plus — design tokens
+   Calm, warm, trustworthy. Deep teal-green brand + warm sand accent.
+   Light is the default; dark is switched with <html data-theme="dark">.
+   ========================================================================== */
+
+:root {
+  /* ---- Raw palette ---------------------------------------------------- */
+  --brand-50:  #E9F5F1;
+  --brand-100: #CFE9E1;
+  --brand-200: #A3D3C6;
+  --brand-300: #6FB8A5;
+  --brand-400: #3F9C86;
+  --brand-500: #1F8070;
+  --brand-600: #0E6B5C;
+  --brand-700: #0A5448;
+  --brand-800: #073E35;
+  --brand-900: #052A24;
+
+  --sand-50:  #FBF6EA;
+  --sand-100: #F5EAD0;
+  --sand-200: #EBD6A4;
+  --sand-300: #E0BF73;
+  --sand-400: #D4A64A;
+  --sand-500: #B98A2E;
+  --sand-700: #6B4E10;
+
+  /* ---- Semantic colors (light) ---------------------------------------- */
+  --bg-page:      #EDE8DD;   /* outside the phone (desktop backdrop) */
+  --bg:           #FAF7F1;   /* app background */
+  --bg-sunken:    #EFEADF;
+  --surface:      #FFFFFF;
+  --surface-2:    #F6F2E9;
+  --border:       #E4DDCE;
+  --border-strong:#788A84;   /* 3.4:1 on the app background (WCAG non-text) */
+
+  --text:         #18302A;
+  --text-muted:   #52645E;
+  --text-inverse: #FFFFFF;
+
+  --primary:         var(--brand-600);
+  --primary-hover:   var(--brand-700);
+  --primary-pressed: var(--brand-800);
+  --on-primary:      #FFFFFF;
+  --primary-text:    var(--brand-600);   /* brand-colored text on surfaces */
+  --primary-soft:    var(--brand-50);
+  --on-primary-soft: var(--brand-700);
+
+  --accent:          var(--sand-400);   /* sand fills: goal bars, sparkles (never text on light) */
+  --accent-soft:     var(--sand-100);
+  --on-accent-soft:  var(--sand-700);
+  --accent-text:     #86600F;            /* sand text / icons on neutral surfaces (5.1:1 on surface-2) */
+
+  --hero-from: var(--brand-600);
+  --hero-to:   var(--brand-800);
+  --on-hero:   #FFFFFF;
+
+  /* Status: calm colors, never relying on color alone (always face + word) */
+  --good-bg:    #E1F3E8;
+  --good-fg:    #1B6B3F;
+  --careful-bg: #FFE5BF;   /* clear amber, kept apart from the sand accent */
+  --careful-fg: #7A4600;
+  --tight-bg:   #FBE4DE;
+  --tight-fg:   #9E3F2B;
+
+  --disabled-bg: #E7E3D9;
+  --disabled-fg: #737F7A;
+
+  --toggle-off:  #7F918B;
+  --toggle-thumb:#FFFFFF;
+  --focus:       #0A5FD0;
+
+  --inverse-bg:     #18302A;   /* toast */
+  --inverse-text:   #F2F7F5;
+  --inverse-accent: #E8C77E;
+
+  --scrim: rgba(10, 24, 20, 0.5);
+
+  /* Split of the salary (how-calculated, explore): payments are lighter teals,
+     the money you can use is full --primary, so it is the strongest part. */
+  --split-1: var(--brand-400);
+  --split-2: var(--brand-300);
+  --split-3: var(--brand-200);
+
+  /* ---- Typography ------------------------------------------------------ */
+  --font-en: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", sans-serif;
+  --font-ar: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Noto Sans Arabic", system-ui, sans-serif;
+
+  /* rem-based so the user's text-size setting scales everything */
+  --fs-hero:  4rem;       /* 64px  — the daily number */
+  --fs-title: 1.75rem;    /* 28px */
+  --fs-body:  1.125rem;   /* 18px */
+  --fs-small: 1rem;       /* 16px — nothing is smaller than this */
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+
+  /* ---- Spacing (4 / 8 / 12 / 16 / 24 / 32) ------------------------------ */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+
+  /* ---- Shape ----------------------------------------------------------- */
+  --r-sm:   12px;
+  --r-md:   16px;
+  --r-card: 20px;
+  --r-sheet:28px;
+  --r-pill: 999px;
+
+  /* ---- Elevation (soft) ------------------------------------------------ */
+  --shadow-sm: 0 1px 2px rgba(24, 48, 42, 0.06), 0 2px 8px rgba(24, 48, 42, 0.05);
+  --shadow-md: 0 4px 12px rgba(24, 48, 42, 0.08), 0 12px 28px rgba(24, 48, 42, 0.08);
+  --shadow-lg: 0 8px 24px rgba(24, 48, 42, 0.16), 0 24px 48px rgba(24, 48, 42, 0.14);
+  --shadow-btn: 0 2px 0 rgba(5, 42, 36, 0.18), 0 8px 18px rgba(14, 107, 92, 0.22);
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 0.8, 0.28, 1);
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 420ms;
+
+  /* Direction multiplier — mirrors slide animations in RTL (see rtl.css) */
+  --flip: 1;
+
+  /* Phone frame */
+  --phone-w: 390px;
+  --phone-h: 844px;
+  --phone-bezel: #1B2B27;
+}
+
+/* ==========================================================================
+   Dark theme
+   ========================================================================== */
+[data-theme="dark"] {
+  --bg-page:      #070F0D;
+  --bg:           #0D1916;
+  --bg-sunken:    #12221D;
+  --surface:      #15241F;
+  --surface-2:    #1B2D27;
+  --border:       #2A403A;
+  --border-strong:#6A857C;
+
+  --text:         #EAF3F0;
+  --text-muted:   #A5BBB4;
+  --text-inverse: #04201A;
+
+  --primary:         #4CC2A6;
+  --primary-hover:   #62CDB4;
+  --primary-pressed: #3AA68C;
+  --on-primary:      #04201A;
+  --primary-text:    #6FD3BB;
+  --primary-soft:    #163A32;
+  --on-primary-soft: #A9E8D8;
+
+  --accent:          var(--sand-300);
+  --accent-soft:     #3A2F14;
+  --on-accent-soft:  #F0D79B;
+  --accent-text:     var(--sand-300);
+
+  --hero-from: #0F5F52;
+  --hero-to:   #08342D;
+  --on-hero:   #FFFFFF;
+
+  --good-bg:    #163326;
+  --good-fg:    #8CE0AE;
+  --careful-bg: #40290F;
+  --careful-fg: #F5BD78;
+  --tight-bg:   #3B1F1A;
+  --tight-fg:   #F5A895;
+
+  --disabled-bg: #1F2F2A;
+  --disabled-fg: #7F948D;
+
+  --toggle-off:  #5C746C;
+  --toggle-thumb:#FFFFFF;
+  --focus:       #8DBDFF;
+
+  --inverse-bg:     #EAF3F0;
+  --inverse-text:   #10241E;
+  --inverse-accent: #0A5448;
+
+  --scrim: rgba(0, 0, 0, 0.62);
+
+  --split-1: #2F8C77;   /* darker than --primary here, so the money you can use still leads */
+  --split-2: #236B5C;
+  --split-3: #1C5047;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 12px 28px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5), 0 24px 48px rgba(0, 0, 0, 0.4);
+  --shadow-btn: 0 2px 0 rgba(0, 0, 0, 0.3), 0 8px 18px rgba(76, 194, 166, 0.18);
+
+  --phone-bezel: #2A3B36;
+}

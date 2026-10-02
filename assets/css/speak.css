@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Tawazon Plus — read-aloud button (assets/js/speak.js)
+   48px round tap target. Pressed = speaking: shows a stop square and a soft ring.
+   .speak--hero  white, on the teal hero card
+   .speak--sm    quiet, under a chat bubble (the tap area stays 48px)
+   ========================================================================== */
+.speak {
+  --speak-bg: var(--primary-soft);
+  --speak-fg: var(--primary-text);
+  --speak-line: transparent;
+  --speak-size: 3rem;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--speak-fg);
+  -webkit-tap-highlight-color: transparent;
+}
+.speak__dot {
+  display: grid;
+  place-items: center;
+  width: var(--speak-size);
+  height: var(--speak-size);
+  border: 2px solid var(--speak-line);
+  border-radius: 50%;
+  background: var(--speak-bg);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.speak .icon { width: 1.5rem; height: 1.5rem; }
+.speak__stop { display: none; }
+.speak:hover { --speak-line: var(--primary); }
+.speak:active .speak__dot { transform: scale(0.92); }
+
+/* Speaking: a calm filled circle with a stop square, ring breathing outwards */
+.speak[aria-pressed="true"] { --speak-bg: var(--primary); --speak-fg: var(--on-primary); }
+.speak[aria-pressed="true"] .speak__play { display: none; }
+.speak[aria-pressed="true"] .speak__stop { display: block; }
+.speak[aria-pressed="true"] .speak__dot { animation: speak-ring 1.6s var(--ease) infinite; }
+@keyframes speak-ring {
+  from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--speak-bg) 55%, transparent); }
+  to   { box-shadow: 0 0 0 0.75rem transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .speak[aria-pressed="true"] .speak__dot { animation: none; }
+}
+
+/* On the hero card: white outline, fills white while speaking */
+.speak--hero {
+  --speak-bg: color-mix(in srgb, var(--on-hero) 14%, transparent);
+  --speak-fg: var(--on-hero);
+  --speak-line: color-mix(in srgb, var(--on-hero) 45%, transparent);
+}
+.speak--hero:hover { --speak-line: var(--on-hero); }
+.speak--hero[aria-pressed="true"] { --speak-bg: var(--on-hero); --speak-fg: var(--hero-from); --speak-line: var(--on-hero); }
+.speak--hero:focus-visible { outline-color: var(--on-hero); }
+
+/* Under a chat bubble: smaller circle, same 48px tap area */
+.speak--sm { --speak-size: 2.25rem; --speak-bg: var(--surface); --speak-line: var(--border); }
+.speak--sm .icon { width: 1.25rem; height: 1.25rem; }
+.speak--sm[aria-pressed="true"] { --speak-bg: var(--primary); --speak-line: var(--primary); }
